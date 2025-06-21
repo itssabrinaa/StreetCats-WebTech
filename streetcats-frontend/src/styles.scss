@@ -1,1 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+
+$pink: #fceaf1;
+$dark-pink: #ee6a98;
+$white: #ffffff;
+$green: #60c7af;
+$yellow: #fbe2a5;
+$blue: #4f84c2;
+$light-blue: #97d5f0;
+$red: #ec1e51;
+$dark-purple: #2e2638;
+
+
+$primary:       $dark-pink;
+$secondary:     $pink;
+$success:       $green;
+$info:          $light-blue;
+$warning:       $yellow;
+$danger:        $red;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+.text-white {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+.text-black {
+  color: #000 !important;
+  font-weight: bold;
+}
+
+.text-dark-pink {
+  color: $dark-pink !important;
+  font-weight: bold;
+}
+
+.text-dark-purple {
+  color: $dark-purple !important;
+  font-weight: bold;
+}
