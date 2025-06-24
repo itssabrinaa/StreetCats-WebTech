@@ -1,15 +1,11 @@
-<p>app-component works!</p>
-<app-navbar></app-navbar>
+<div class="d-flex flex-column min-vh-100 bg-light">
+  <app-navbar class="sticky-top"></app-navbar>
 
-<button type="button" class="btn btn-primary text-white">Primary</button>
-<button type="button" class="btn btn-secondary text-dark-pink">Secondary</button>
-<button type="button" class="btn btn-success">Success</button>
-<button type="button" class="btn btn-danger">Danger</button>
-<button type="button" class="btn btn-warning">Warning</button>
-<button type="button" class="btn btn-info">Info</button>
-<button type="button" class="btn btn-light">Light</button>
-<button type="button" class="btn btn-dark">Dark</button>
+  <main class="container flex-grow-1 my-3">
+    <router-outlet></router-outlet>
+  </main>
 
-<button type="button" class="btn btn-link">Link</button>
+  <app-footer/>
 
-<router-outlet />
+</div>
+

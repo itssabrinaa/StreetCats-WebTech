@@ -1,0 +1,27 @@
+@import '../../variables';
+
+.navbar {
+  background-color: $pink !important;
+}
+
+.nav-link {
+  color: $dark-pink !important;
+}
+
+.nav-link:hover {
+  color: $dark-purple !important;
+}
+
+.navbar-toggler {
+  border-color: $dark-pink !important;
+}
+
+.title {
+    font-weight: bold;
+    color: $dark-pink !important;
+}
+
+.navbar-nav .active {
+ font-weight: bold;
+ text-decoration: underline;
+}
