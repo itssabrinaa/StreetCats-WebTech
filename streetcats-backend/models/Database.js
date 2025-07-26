@@ -30,6 +30,6 @@ database.sync()
     console.log("DATABASE -> Tabelle sincronizzate con successo.");
   })
   .catch(err => {
-    console.error("DATABASE -> Errore nella sincronizzazione:", err);
+    console.error("DATABASE -> Errore nella sincronizzazione:", err.message);
   });
 

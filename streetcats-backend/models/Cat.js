@@ -17,7 +17,7 @@ export function createCatModel() {
             allowNull: false
         },
         desc: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         lat: {

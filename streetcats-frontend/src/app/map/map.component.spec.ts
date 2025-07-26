@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProvaComponent } from './prova.component';
+import { MapComponent } from './map.component';
 
-describe('ProvaComponent', () => {
-  let component: ProvaComponent;
-  let fixture: ComponentFixture<ProvaComponent>;
+describe('MapComponent', () => {
+  let component: MapComponent;
+  let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProvaComponent]
+      imports: [MapComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProvaComponent);
+    fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
