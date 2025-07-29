@@ -1,5 +1,6 @@
 import express from "express";
-import { AuthController } from "../controllers/AuthController";
+import { AuthController } from "../controllers/AuthController.js";
+import { createHttpError } from "../utils/errorFormatter.js";
 
 export const authenticationRouter = express.Router();
 
@@ -32,15 +33,17 @@ export const authenticationRouter = express.Router();
  *          description: Nuovo utente registrato
  *        400:
  *          description: Credenziali non valide
+ *        409:
+ *          description: Utente già registrato con quell'email
  */
 authenticationRouter.post("/signup", (req, res, next) => {
   AuthController.saveUser(req, res).then((user) => {
-    res.json(user);
+    res.json(user.name);
   }).catch((err) => {
-    if(err.status === 400){
-      next(err)
+    if(err.status === 400 || err.status === 409){
+      return next(err);
     }else{
-      next({status: 500, message: "Impossibile effettuare la registrazione. Riprovare."});
+      return next(createHttpError(500, "Impossibile effettuare la registrazione. Riprovare."));
     }
   })
 });
@@ -78,6 +81,6 @@ authenticationRouter.post("/login", async (req, res, next) => {
     if(isAuthenticated){
       res.json(AuthController.issueToken(req.body.email));
     } else {
-      return next({status: 401, message: "Credenziali errate. Riprovare."});
+      return next(createHttpError(401, "Credenziali errate. Riprovare."));
     }
 });

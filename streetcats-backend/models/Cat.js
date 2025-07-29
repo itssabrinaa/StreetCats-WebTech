@@ -27,6 +27,10 @@ export function createCatModel() {
         lon: {
             type: DataTypes.FLOAT,
             allowNull: false
+        },
+        UserEmail: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     });
 }

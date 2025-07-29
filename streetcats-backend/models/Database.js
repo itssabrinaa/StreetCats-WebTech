@@ -5,8 +5,8 @@ import { createUserModel } from './User.js';
 import { createCatModel } from './Cat.js';
 import { createCommentModel } from './Comment.js';
 
-export const database = new Sequelize(process.env.DB_CONNECTION_URI, {
-  dialect: process.env.DB_DIALECT
+export const database = new Sequelize(process.env.SC_DB_CONNECTION_URI, {
+  dialect: process.env.SC_DB_DIALECT
 });
 
 createUserModel();
@@ -15,14 +15,26 @@ createCommentModel();
 
 export const {User, Cat, Comment} = database.models;
 
-User.hasMany(Cat);
-Cat.belongsTo(User);
+Cat.belongsTo(User, {
+  foreignKey: 'UserEmail',
+  targetKey: 'email'
+});
+User.hasMany(Cat, {
+  foreignKey: 'UserEmail',
+  sourceKey: 'email'
+});
 
-Cat.hasMany(Comment);
 Comment.belongsTo(Cat);
+Cat.hasMany(Comment);
 
-User.hasMany(Comment);
-Comment.belongsTo(User);
+Comment.belongsTo(User, {
+  foreignKey: 'UserEmail',
+  targetKey: 'email'
+});
+User.hasMany(Comment, {
+  foreignKey: 'UserEmail',
+  sourceKey: 'email'
+});
 
 
 database.sync()

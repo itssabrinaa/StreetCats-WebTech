@@ -8,7 +8,11 @@ export function createCommentModel() {
             primaryKey: true, 
             autoIncrement: true 
         },
-        img: {
+        comment: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+        UserEmail: {
             type: DataTypes.STRING,
             allowNull: false
         }
