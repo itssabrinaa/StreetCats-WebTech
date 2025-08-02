@@ -2,6 +2,9 @@ import express from "express";
 import { CatController } from "../controllers/CatController.js";
 import { enforceAuthentication } from "../middleware/authMW.js";
 import { upload } from "../middleware/uploadImageMW.js";
+import { catValidation } from "../utils/validatorAndEscaper.js";
+import { handleValidationErrors } from "../middleware/validationMW.js";
+import { createHttpError } from "../utils/errorFormatter.js";
 
 export const catRouter = express.Router();
 
@@ -42,14 +45,18 @@ export const catRouter = express.Router();
  *      responses:
  *        200:
  *          description: Nuovo avvistamento di gatto salvato
+ *        400:
+ *          description: Richiesta non valida
  *        401:
  *          description: Utente non autorizzato. Inserire un token valido
  */
-catRouter.post("/cats", enforceAuthentication, upload.single('img'), (req, res, next) => {
+catRouter.post("/cats", 
+          enforceAuthentication, upload.single('img'), catValidation, handleValidationErrors,  
+        (req, res, next) => {
   CatController.saveCat(req).then( result => {
-    res.json(result);
+    res.json({new_cat: `${result}`});
   }).catch(err => {
-    next(err);
+    next(createHttpError(err.status, err.message));
   });
 });
 
@@ -66,9 +73,9 @@ catRouter.post("/cats", enforceAuthentication, upload.single('img'), (req, res, 
  */
 catRouter.get("/cats", (req, res, next) => {
   CatController.getAllCats(req).then( result => {
-    res.json(result);
+    res.json({cats: `${result}`});
   }).catch(err => {
-    next(err);
+    next(createHttpError(err.status, err.message));
   });
 });
 
@@ -89,6 +96,8 @@ catRouter.get("/cats", (req, res, next) => {
  *      responses:
  *        200:
  *          description: Contenuto dell'avvistamento del gatto con id richiesto e relativi commenti
+ *        400:
+ *          description: Richiesta non valida
  *        404:
  *          description: Il gatto con id richiesto non esiste
  */
@@ -96,26 +105,26 @@ catRouter.get("/cats/:id", (req, res, next) => {
   CatController.getCat(req).then( result => {
     res.json(result);
   }).catch(err => {
-    next(err);
+    next(createHttpError(err.status, err.message));
   });
 });
 
 
-// //ATTENZIONE!!! USARE QUESTA SOLO IN FASE DI SVILUPPO PER TEST
-// /**
-//  * @swagger
-//  *  /cats:
-//  *    delete:
-//  *      description: Elimina tutti gli avvistamenti di gatti
-//  *      responses:
-//  *        200:
-//  *          description: Tutti gli avvistamenti eliminati
-//  */
-// catRouter.delete("/cats", (req, res, next) => {
-//   CatController.deleteAllCats().then(count => {
-//       res.json({ message: `${count} gatti eliminati.` });
-//     })
-//     .catch(err => {
-//       next(err);
-//     });
-// }); 
+//ATTENZIONE!!! USARE QUESTA SOLO IN FASE DI SVILUPPO 
+/**
+ * @swagger
+ *  /cats:
+ *    delete:
+ *      description: Elimina tutti gli avvistamenti di gatti
+ *      responses:
+ *        200:
+ *          description: Tutti gli avvistamenti eliminati
+ */
+catRouter.delete("/cats", (req, res, next) => {
+  CatController.deleteAllCats().then(count => {
+    res.json({ message: `${count} gatti eliminati.` });
+  })
+  .catch(err => {
+    next(createHttpError(err.status, err.message));
+  });
+}); 

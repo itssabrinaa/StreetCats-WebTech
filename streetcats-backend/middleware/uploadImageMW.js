@@ -1,4 +1,5 @@
 import multer from "multer";
+import { createHttpError } from "../utils/errorFormatter.js";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -10,4 +11,12 @@ const storage = multer.diskStorage({
   }
 });
 
-export const upload = multer({ storage });
+export const upload = multer({ 
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(createHttpError(400, "Richiesta non valida, solo immagini permesse."));
+    }
+    cb(null, true);
+  }
+});

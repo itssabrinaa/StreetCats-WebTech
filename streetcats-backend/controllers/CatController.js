@@ -44,6 +44,10 @@ export class CatController {
     }
 
     static async deleteAllCats() {
-        return Cat.destroy({ where: {} });
+        if(process.env.SC_IS_DEVELOPMENT !== "true"){
+            throw createHttpError(401, "Ops! Non sei autorizzato a effettuare quest'operazione!");
+        }
+        
+        return Cat.destroy({ where: {}, individualHooks: true });
     }
 }

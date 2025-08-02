@@ -1,8 +1,27 @@
 import express from "express";
 import { AuthController } from "../controllers/AuthController.js";
+import { loginValidation, signupValidation } from "../utils/validatorAndEscaper.js";
+import { handleValidationErrors } from "../middleware/validationMW.js";
 import { createHttpError } from "../utils/errorFormatter.js";
 
 export const authenticationRouter = express.Router();
+
+//Route per richiedere il token csrf
+/**
+ * @swagger
+ *  /csrf-token:
+ *    get:
+ *      description: Recupero token csrf
+ *      produces:
+ *        - application/json
+ *      responses:
+ *        200:
+ *          description: Token csrf recuperato correttamente
+ */
+/*authenticationRouter.get("/csrf-token", (req, res) => {
+  res.cookie("csrfToken", req.csrfToken());
+  res.json({ csrfToken: req.csrfToken() });
+});*/
 
 /**
  * @swagger
@@ -36,14 +55,14 @@ export const authenticationRouter = express.Router();
  *        409:
  *          description: Utente già registrato con quell'email
  */
-authenticationRouter.post("/signup", (req, res, next) => {
+authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (req, res, next) => {
   AuthController.saveUser(req, res).then((user) => {
-    res.json(user.name);
+    res.json({ name: `${user.name}`});
   }).catch((err) => {
     if(err.status === 400 || err.status === 409){
-      return next(err);
+      next(createHttpError(err.status, err.message));
     }else{
-      return next(createHttpError(500, "Impossibile effettuare la registrazione. Riprovare."));
+      next(createHttpError(500, "Impossibile effettuare la registrazione. Riprovare."));
     }
   })
 });
@@ -72,15 +91,17 @@ authenticationRouter.post("/signup", (req, res, next) => {
  *      responses:
  *        200:
  *          description: L'utente ha effettuato il log in
+ *        400:
+ *          description: Richiesta non valida
  *        401:
  *          description: Credenziali errate
  */
-authenticationRouter.post("/login", async (req, res, next) => {
+authenticationRouter.post("/login", loginValidation, handleValidationErrors, async (req, res, next) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
 
     if(isAuthenticated){
-      res.json(AuthController.issueToken(req.body.email));
+      res.json({jwt_token: `${AuthController.issueToken(req.body.email)}`});
     } else {
-      return next(createHttpError(401, "Credenziali errate. Riprovare."));
+      next(createHttpError(401, "Credenziali errate. Riprovare."));
     }
 });

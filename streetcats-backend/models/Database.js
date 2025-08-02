@@ -25,7 +25,10 @@ User.hasMany(Cat, {
 });
 
 Comment.belongsTo(Cat);
-Cat.hasMany(Comment);
+Cat.hasMany(Comment, {
+  onDelete: 'CASCADE',
+  hooks: true
+});
 
 Comment.belongsTo(User, {
   foreignKey: 'UserEmail',
