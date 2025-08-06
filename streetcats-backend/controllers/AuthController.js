@@ -10,8 +10,8 @@ import { createHttpError } from "../utils/errorFormatter.js";
 
 export class AuthController {
 
-    static issueToken(email){
-        return Jwt.sign({email: email}, process.env.SC_JWT_TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
+    static issueToken(email, name){
+        return Jwt.sign({email: email, name: name}, process.env.SC_JWT_TOKEN_SECRET, {expiresIn: `${24*60*60}s`});
     }
 
     static isTokenValid(token, callback){
@@ -39,7 +39,6 @@ export class AuthController {
     }
 
     static async checkCredentials(req, res){
-
         let user = await User.findOne({
             where: {
                 email: req.body.email
@@ -50,6 +49,17 @@ export class AuthController {
 
         const isValid = await argon2.verify(user.password, req.body.pwd);
         return isValid;
+    }
+
+    static async getUserName(email){
+        let user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        if(!user){  return null;   }
+        return user.name;
     }
 
     

@@ -99,9 +99,11 @@ authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (
 authenticationRouter.post("/login", loginValidation, handleValidationErrors, async (req, res, next) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
 
-    if(isAuthenticated){
-      res.json({jwt_token: `${AuthController.issueToken(req.body.email)}`});
-    } else {
-      next(createHttpError(401, "Credenziali errate. Riprovare."));
-    }
+  if(isAuthenticated){
+    let name = AuthController.getUserName(req.body.email);
+    let email = req.body.email;
+    res.json({jwt: `${AuthController.issueToken(email, name)}`});
+  } else {
+    next(createHttpError(401, "Credenziali errate. Riprovare."));
+  }
 });
