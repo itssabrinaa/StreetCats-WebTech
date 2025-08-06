@@ -31,15 +31,6 @@ app.use(cookieParser(process.env.SC_CSRF_TOKEN_SECRET));
 //Middleware per il parsing di json
 app.use(express.json());
 
-//Middleware e route per CSRF
-app.use(csrfMiddleware);
-app.get("/csrf-token", (req, res) => {
-  const token = req.csrfToken();
-  res.cookie('_csrf', token);
-  res.json({ csrfToken: token });
-});
-
-
 //Integrazione Swagger per generare e visualizzare la documentazione dell'api
 const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -56,53 +47,28 @@ const swaggerSpec = swaggerJSDoc({
           bearerFormat: 'JWT'
         }
       },
-      parameters: {
-        csrfTokenHeader: {
-          in: "header",
-          name: "csrf-token",
-          required: true,
-          schema: {
-            type: "string"
-          },
-          description: "CSRF token ottenuto da /csrf-token"
-        }
-      }
+      
     }
   },
   apis: ['./routes/*Router.js'],
 });
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec, {
-  swaggerOptions: {
-    requestInterceptor: (req) => {
-      // Solo per POST/PUT/DELETE
-      if (['POST', 'PUT', 'DELETE'].includes(req.method.toUpperCase())) {
-        return fetch('/csrf-token', { credentials: 'same-origin' })
-          .then(response => response.json())
-          .then(data => {
-            if (req.body) {
-              try {
-                const bodyObj = JSON.parse(req.body);
-                bodyObj._csrf = data.csrfToken;
-                req.body = JSON.stringify(bodyObj);
-              } catch (err) {
-                console.warn('Body non JSON parsabile:', err);
-              }
-            }
-            return req;
-          });
-      }
-      return req;
-    }
-  }
-}));
 
-
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 //Routes e middlewares
 app.use(authenticationRouter);
 app.use(catRouter);
 app.use(commentRouter);
+
+
+//Middleware e route per CSRF 
+app.use(csrfMiddleware);
+app.get("/csrf-token", (req, res) => {
+  const token = req.csrfToken();
+  res.cookie('_csrf', token, { signed: true, httpOnly: false, secure: false });
+  res.json({ csrfToken: token });
+});
 
 //Error handler generico
 app.use( (err, req, res, next) => {

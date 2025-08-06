@@ -48,7 +48,10 @@ export class AuthController {
         if(!user){  return false;   }
 
         const isValid = await argon2.verify(user.password, req.body.pwd);
-        return isValid;
+        if(isValid){
+            return user;
+        }
+        return null;
     }
 
     static async getUserName(email){

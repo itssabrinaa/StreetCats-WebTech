@@ -3,10 +3,10 @@ import { AuthController } from "../controllers/AuthController.js";
 import { loginValidation, signupValidation } from "../utils/validatorAndEscaper.js";
 import { handleValidationErrors } from "../middleware/validationMW.js";
 import { createHttpError } from "../utils/errorFormatter.js";
+import { csrfMiddleware } from "../middleware/csrfMW.js";
 
 export const authenticationRouter = express.Router();
 
-//Route per richiedere il token csrf
 /**
  * @swagger
  *  /csrf-token:
@@ -18,10 +18,6 @@ export const authenticationRouter = express.Router();
  *        200:
  *          description: Token csrf recuperato correttamente
  */
-/*authenticationRouter.get("/csrf-token", (req, res) => {
-  res.cookie("csrfToken", req.csrfToken());
-  res.json({ csrfToken: req.csrfToken() });
-});*/
 
 /**
  * @swagger
@@ -47,6 +43,9 @@ export const authenticationRouter = express.Router();
  *                pwd:
  *                  type: string
  *                  example: MyP4ssword!
+ *                _csrf:
+ *                  type: string
+ *                  example: 
  *      responses:
  *        200:
  *          description: Nuovo utente registrato
@@ -55,7 +54,7 @@ export const authenticationRouter = express.Router();
  *        409:
  *          description: Utente già registrato con quell'email
  */
-authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (req, res, next) => {
+authenticationRouter.post("/signup", signupValidation, handleValidationErrors, csrfMiddleware, async (req, res, next) => {
   AuthController.saveUser(req, res).then((user) => {
     res.json({ name: `${user.name}`});
   }).catch((err) => {
@@ -88,6 +87,9 @@ authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (
  *                pwd:
  *                  type: string
  *                  example: MyP4ssword!
+ *                _csrf:
+ *                  type: string
+ *                  example: 
  *      responses:
  *        200:
  *          description: L'utente ha effettuato il log in
@@ -96,13 +98,11 @@ authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (
  *        401:
  *          description: Credenziali errate
  */
-authenticationRouter.post("/login", loginValidation, handleValidationErrors, async (req, res, next) => {
+authenticationRouter.post("/login", loginValidation, handleValidationErrors, csrfMiddleware, async (req, res, next) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
 
   if(isAuthenticated){
-    let name = AuthController.getUserName(req.body.email);
-    let email = req.body.email;
-    res.json({jwt: `${AuthController.issueToken(email, name)}`});
+    res.json({jwt: `${AuthController.issueToken(isAuthenticated.email, isAuthenticated.name)}`});
   } else {
     next(createHttpError(401, "Credenziali errate. Riprovare."));
   }
