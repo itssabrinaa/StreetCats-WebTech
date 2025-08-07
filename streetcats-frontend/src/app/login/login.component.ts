@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,17 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   router = inject(Router);
+  actRoute = inject(ActivatedRoute);
+  toastr = inject(ToastrService);
+
+  ngOnInit() {
+    this.actRoute.queryParams.subscribe(params => {
+      if (params['unauth']) {
+        console.log("unauth");
+        this.toastr.warning("Effettuare il Log In per accedere a questa pagina.", "Non autorizzato");
+      }
+    });
+  }
 
   submitted = false;
   loginForm = new FormGroup({
