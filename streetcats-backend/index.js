@@ -1,13 +1,11 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
 import 'dotenv/config.js';
 
-import { csrfMiddleware } from "./middleware/csrfMW.js";
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { catRouter } from "./routes/catRouter.js";
 import { commentRouter } from "./routes/commentRouter.js";
@@ -24,9 +22,6 @@ app.use('/cat-images', express.static(process.env.SC_IMAGES_PATH));
 //Specifica che il contenuto può essere acceduto da qualunque origine con protocollo->http e host->localhost
 const corsOptions = { origin: 'http://localhost' };
 app.use(cors(corsOptions));
-
-//Middleware richiesto da tiny-csrf
-app.use(cookieParser(process.env.SC_CSRF_TOKEN_SECRET));
 
 //Middleware per il parsing di json
 app.use(express.json());
@@ -61,14 +56,6 @@ app.use(authenticationRouter);
 app.use(catRouter);
 app.use(commentRouter);
 
-
-//Middleware e route per CSRF 
-app.use(csrfMiddleware);
-app.get("/csrf-token", (req, res) => {
-  const token = req.csrfToken();
-  res.cookie('_csrf', token, { signed: true, httpOnly: false, secure: false });
-  res.json({ csrfToken: token });
-});
 
 //Error handler generico
 app.use( (err, req, res, next) => {

@@ -3,21 +3,8 @@ import { AuthController } from "../controllers/AuthController.js";
 import { loginValidation, signupValidation } from "../utils/validatorAndEscaper.js";
 import { handleValidationErrors } from "../middleware/validationMW.js";
 import { createHttpError } from "../utils/errorFormatter.js";
-import { csrfMiddleware } from "../middleware/csrfMW.js";
 
 export const authenticationRouter = express.Router();
-
-/**
- * @swagger
- *  /csrf-token:
- *    get:
- *      description: Recupero token csrf
- *      produces:
- *        - application/json
- *      responses:
- *        200:
- *          description: Token csrf recuperato correttamente
- */
 
 /**
  * @swagger
@@ -43,9 +30,6 @@ export const authenticationRouter = express.Router();
  *                pwd:
  *                  type: string
  *                  example: MyP4ssword!
- *                _csrf:
- *                  type: string
- *                  example: 
  *      responses:
  *        200:
  *          description: Nuovo utente registrato
@@ -54,7 +38,7 @@ export const authenticationRouter = express.Router();
  *        409:
  *          description: Utente già registrato con quell'email
  */
-authenticationRouter.post("/signup", signupValidation, handleValidationErrors, csrfMiddleware, async (req, res, next) => {
+authenticationRouter.post("/signup", signupValidation, handleValidationErrors, (req, res, next) => {
   AuthController.saveUser(req, res).then((user) => {
     res.json({ name: `${user.name}`});
   }).catch((err) => {
@@ -87,9 +71,6 @@ authenticationRouter.post("/signup", signupValidation, handleValidationErrors, c
  *                pwd:
  *                  type: string
  *                  example: MyP4ssword!
- *                _csrf:
- *                  type: string
- *                  example: 
  *      responses:
  *        200:
  *          description: L'utente ha effettuato il log in
@@ -98,7 +79,7 @@ authenticationRouter.post("/signup", signupValidation, handleValidationErrors, c
  *        401:
  *          description: Credenziali errate
  */
-authenticationRouter.post("/login", loginValidation, handleValidationErrors, csrfMiddleware, async (req, res, next) => {
+authenticationRouter.post("/login", loginValidation, handleValidationErrors, async (req, res, next) => {
   let isAuthenticated = await AuthController.checkCredentials(req, res);
 
   if(isAuthenticated){

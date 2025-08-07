@@ -4,7 +4,6 @@ import { enforceAuthentication } from "../middleware/authMW.js";
 import { commentValidation } from "../utils/validatorAndEscaper.js";
 import { handleValidationErrors } from "../middleware/validationMW.js";
 import { createHttpError } from "../utils/errorFormatter.js";
-import { csrfMiddleware } from "../middleware/csrfMW.js";
 
 export const commentRouter = express.Router();
 
@@ -32,9 +31,6 @@ export const commentRouter = express.Router();
  *                catId:
  *                  type: number
  *                  example: 1
- *                _csrf:
- *                  type: string
- *                  example: 
  *      responses:
  *        200:
  *          description: Nuovo commento salvato
@@ -44,10 +40,10 @@ export const commentRouter = express.Router();
  *          description: Utente non autorizzato. Inserire un token valido
  */
 commentRouter.post("/comment", 
-            enforceAuthentication, commentValidation, handleValidationErrors, csrfMiddleware,
-           async (req, res, next) => {
+            enforceAuthentication, commentValidation, handleValidationErrors,
+            (req, res, next) => {
   CommentController.saveComment(req).then( result => {
-    res.json({new_comment: `${result}`});
+    res.json({new_comment: result});
   }).catch(err => {
     next(createHttpError(err.status, err.message));
   });

@@ -5,7 +5,6 @@ import { upload } from "../middleware/uploadImageMW.js";
 import { catValidation } from "../utils/validatorAndEscaper.js";
 import { handleValidationErrors } from "../middleware/validationMW.js";
 import { createHttpError } from "../utils/errorFormatter.js";
-import { csrfMiddleware } from "../middleware/csrfMW.js";
 
 export const catRouter = express.Router();
 
@@ -42,10 +41,7 @@ export const catRouter = express.Router();
  *                  example: 40.8522
  *                lon:
  *                  type: number
- *                  example: 14.2681
- *                _csrf:
- *                  type: string
- *                  example: 
+ *                  example: 14.2681 
  *      responses:
  *        200:
  *          description: Nuovo avvistamento di gatto salvato
@@ -55,10 +51,10 @@ export const catRouter = express.Router();
  *          description: Utente non autorizzato. Inserire un token valido
  */
 catRouter.post("/cats", 
-          enforceAuthentication, upload.single('img'), catValidation, handleValidationErrors, csrfMiddleware,
-        async (req, res, next) => {
+          enforceAuthentication, upload.single('img'), catValidation, handleValidationErrors,
+         (req, res, next) => {
   CatController.saveCat(req).then( result => {
-    res.json({new_cat: `${result}`});
+    res.json({new_cat: result });
   }).catch(err => {
     next(createHttpError(err.status, err.message));
   });
@@ -71,23 +67,13 @@ catRouter.post("/cats",
  *      description: Recupero di tutti gli avvistamenti di gatti
  *      produces:
  *        - application/json
- *      requestBody:
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                _csrf:
- *                  type: string
- *                  example:
  *      responses:
  *        200:
  *          description: Avvistamenti di gatti recuperati correttamente
  */
-catRouter.get("/cats", csrfMiddleware, async (req, res, next) => {
+catRouter.get("/cats", (req, res, next) => {
   CatController.getAllCats(req).then( result => {
-    res.json({cats: `${result}`});
+    res.json({cats: result});
   }).catch(err => {
     next(createHttpError(err.status, err.message));
   });
@@ -107,17 +93,6 @@ catRouter.get("/cats", csrfMiddleware, async (req, res, next) => {
  *         required: true
  *         schema:
  *           type: integer
- *         requestBody:
- *           description: credenziali del nuovo utente
- *           required: true
- *           content:
- *              application/json:
- *           schema:
- *              type: object
- *              properties:
- *                _csrf:
- *                  type: string
- *                  example:
  *      responses:
  *        200:
  *          description: Contenuto dell'avvistamento del gatto con id richiesto e relativi commenti
@@ -126,9 +101,9 @@ catRouter.get("/cats", csrfMiddleware, async (req, res, next) => {
  *        404:
  *          description: Il gatto con id richiesto non esiste
  */
-catRouter.get("/cats/:id", csrfMiddleware, async (req, res, next) => {
+catRouter.get("/cats/:id", (req, res, next) => {
   CatController.getCat(req).then( result => {
-    res.json(result);
+    res.json({cat: result});
   }).catch(err => {
     next(createHttpError(err.status, err.message));
   });
@@ -141,33 +116,11 @@ catRouter.get("/cats/:id", csrfMiddleware, async (req, res, next) => {
  *  /cats:
  *    delete:
  *      description: Elimina tutti gli avvistamenti di gatti
- *      produces:
- *        - application/json
- *      requestBody:
- *        description: credenziali del nuovo utente
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                name:
- *                  type: string
- *                  example: Sabri
- *                email:
- *                  type: string
- *                  example: email@provider.it
- *                pwd:
- *                  type: string
- *                  example: MyP4ssword!
- *                _csrf:
- *                  type: string
- *                  example:
  *      responses:
  *        200:
  *          description: Tutti gli avvistamenti eliminati
  */
-catRouter.delete("/cats", csrfMiddleware, async (req, res, next) => {
+catRouter.delete("/cats", (req, res, next) => {
   CatController.deleteAllCats().then(count => {
     res.json({ message: `${count} gatti eliminati.` });
   })
