@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthRequest } from './auth-request.type';
+
+import { environment } from '../../../environments/environment';
+import { LogInRequest, LogInResponse, SignUpRequest, SignUpResponse } from './auth-request.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiAuthService {
 
-  url = "http://localhost:3000" 
+  url = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   httpOptions = {
@@ -16,15 +18,14 @@ export class ApiAuthService {
     })
   };
 
-  signup(signupRequest: AuthRequest){
-    const url = `${this.url}/signup`; 
-    console.log(signupRequest);
-    return this.http.post(url, signupRequest, this.httpOptions);
+  signup(signupRequest: SignUpRequest){
+    const url = `${this.url}/signup`;
+    return this.http.post<SignUpResponse>(url, signupRequest, this.httpOptions);
   }
 
-  login(loginRequest: AuthRequest){
-    const url = `${this.url}/auth`; 
-    return this.http.post<string>(url, loginRequest, this.httpOptions);
+  login(loginRequest: LogInRequest){
+    const url = `${this.url}/login`; 
+    return this.http.post<LogInResponse>(url, loginRequest, this.httpOptions);
   }
 
 }

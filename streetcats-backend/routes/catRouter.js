@@ -54,7 +54,7 @@ catRouter.post("/cats",
           enforceAuthentication, upload.single('img'), catValidation, handleValidationErrors,
          (req, res, next) => {
   CatController.saveCat(req).then( result => {
-    res.json({new_cat: result });
+    res.json({ new_cat: result });
   }).catch(err => {
     next(createHttpError(err.status, err.message));
   });

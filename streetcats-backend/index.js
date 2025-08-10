@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 app.use('/cat-images', express.static(process.env.SC_IMAGES_PATH));
 
 //Specifica che il contenuto può essere acceduto da qualunque origine con protocollo->http e host->localhost
-const corsOptions = { origin: 'http://localhost' };
+const corsOptions = { origin: 'http://localhost:4200' };
 app.use(cors(corsOptions));
 
 //Middleware per il parsing di json

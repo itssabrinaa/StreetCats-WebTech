@@ -21,7 +21,7 @@ export class LogoutComponent {
       this.toastr.warning("You are not currently logged in!");
       this.router.navigateByUrl("/");
     } else {
-      this.toastr.warning(`Log Out per ${this.authService.name()} effettuato con successo`, "Log Out");
+      this.toastr.success(`Log Out per ${this.authService.name()} effettuato con successo`, "A presto!");
       this.authService.logout();
       this.router.navigateByUrl("/");
     }

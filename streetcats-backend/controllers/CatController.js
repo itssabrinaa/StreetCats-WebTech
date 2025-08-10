@@ -6,10 +6,11 @@ const BASE_IMAGE_URL = 'http://localhost:3000/cat-images/';
 export class CatController {
     
     static async getAllCats(){
-        const cats = await Cat.findAll();
+        const cats = await Cat.findAll({
+            attributes: ['id','title', 'lat', 'lon', 'createdAt']
+        });
         return cats.map(cat => ({
-            ...cat.toJSON(),
-            imgUrl: BASE_IMAGE_URL + cat.img
+            ...cat.toJSON()
         }));
     }
 

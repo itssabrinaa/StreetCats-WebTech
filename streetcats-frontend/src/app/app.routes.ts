@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 import { MapComponent } from './map/map.component';
 import { CatComponent } from './cat/cat.component';
 import { authGuard } from './_guards/auth.guard';
@@ -20,14 +21,19 @@ export const routes: Routes = [
         title: "Home - StreetCats"
     },
     {
+        path:'signup',
+        component: SignupComponent,
+        title: "Sign Up - StreetCats"
+    },
+    {
         path:'login',
         component: LoginComponent,
         title: "Log In - StreetCats"
     },
     {
-        path:'signup',
-        component: SignupComponent,
-        title: "Sign Up - StreetCats"
+        path: "logout",
+        component: LogoutComponent,
+        title: "Log Out - StreetCats"
     },
     {
         path:'map',
@@ -43,7 +49,6 @@ export const routes: Routes = [
     {
         path:'cats/:id',
         component: CatComponent,
-        title: "Nuovo gatto - StreetCats",
-        canActivate: [authGuard]
+        title: "Gatto - StreetCats"
     }
 ];
