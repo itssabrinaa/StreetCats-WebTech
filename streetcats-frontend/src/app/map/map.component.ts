@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
+import { ToastrService } from 'ngx-toastr';
 
 import { ApiCatService } from '../_services/api-requests/api-cat.service';
 import { CatSummary } from '../_services/api-requests/cat-request.type';
@@ -15,6 +16,8 @@ import { CatSummary } from '../_services/api-requests/cat-request.type';
 })
 export class MapComponent {
   router = inject(Router);
+  actRoute = inject(ActivatedRoute);
+  toastr = inject(ToastrService);
   apiService = inject(ApiCatService);
 
   map!: L.Map;
@@ -22,6 +25,12 @@ export class MapComponent {
   icon = L.icon({iconUrl:"map_marker.png", iconSize:[35,35]});
 
   ngOnInit(){
+    this.actRoute.queryParams.subscribe(params => {
+      if (params['nonexistent']) {
+        this.toastr.warning(`Ops... Hai cercato un gatto che non esiste, riprova.`, `Nessun gatto`);
+      }
+    });
+
     this.initMap();
     this.loadCats();
 

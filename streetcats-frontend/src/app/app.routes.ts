@@ -33,7 +33,8 @@ export const routes: Routes = [
     {
         path: "logout",
         component: LogoutComponent,
-        title: "Log Out - StreetCats"
+        title: "Log Out - StreetCats",
+        canActivate: [authGuard]
     },
     {
         path:'map',
@@ -41,7 +42,7 @@ export const routes: Routes = [
         title: "Mappa - StreetCats"
     },
     {
-        path:'create-cat',
+        path:'new-cat',
         component: NewCatComponent,
         title: "Nuovo gatto - StreetCats",
         canActivate: [authGuard]

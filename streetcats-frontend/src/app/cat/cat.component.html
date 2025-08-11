@@ -1,1 +1,43 @@
-<p>cat works!</p>
+<div class="container py-4">
+
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <img [src]="cat?.img" [alt]="cat?.title" class="img-fluid rounded shadow" />
+        </div>
+        <div class="col-md-6">
+            <h2>{{ cat?.title }}</h2>
+            <p class="text-muted mb-1">Pubblicato da <strong>{{ cat?.User?.name }}</strong> ( {{ cat?.UserEmail }} )</p>
+            <p class="text-muted mb-1">il {{ cat?.createdAt?.substring(0, 10) }} alle {{ cat?.createdAt?.substring(11, 19) }}.</p>
+            <div class="cat-description" markdown emoji [data]="cat?.desc"></div>
+        </div>
+    </div>
+
+    <ul class="comments-list p-0">
+        @for(comment of cat?.Comments; track comment) {
+            <li class="comment-item d-flex align-items-start mb-3 p-3 border rounded shadow-sm bg-light">
+            <div class="comment-avatar me-3 rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" 
+                style="width:40px; height:40px; font-weight:bold;">
+                {{ comment.User?.name?.charAt(0) || '?' }}
+            </div>
+            <div class="comment-body flex-grow-1">
+                <div class="comment-header mb-1">
+                <p class="text-muted mb-1">
+                    <strong>{{ comment.User?.name }}</strong> ( {{ comment.UserEmail }} )
+                    <small class="text-muted ms-2">
+                        {{ comment.createdAt.substring(0, 10) }} {{ comment.createdAt.substring(11, 16) }}
+                    </small>
+                </p>
+                </div>
+                <div class="comment-text">
+                {{ comment.comment }}
+                </div>
+            </div>
+            </li>
+        } @empty {
+            <li class="empty-comment-list text-muted fst-italic">Ancora nessun commento</li>
+        }
+    </ul>
+
+    <button>Commenta</button>
+
+</div>

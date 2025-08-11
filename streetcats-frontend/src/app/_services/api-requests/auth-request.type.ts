@@ -1,7 +1,7 @@
 export interface SignUpRequest {
-  name: string,
-  email: string, 
-  pwd: string
+  name: string;
+  email: string; 
+  pwd: string;
 }
 
 export interface SignUpResponse {
@@ -9,8 +9,8 @@ export interface SignUpResponse {
 }
 
 export interface LogInRequest {
-  email: string, 
-  pwd: string
+  email: string;
+  pwd: string;
 }
 
 export interface LogInResponse {

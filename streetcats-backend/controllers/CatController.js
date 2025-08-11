@@ -1,4 +1,4 @@
-import { Cat, Comment } from "../models/Database.js";
+import { Cat, Comment, User } from "../models/Database.js";
 
 import { createHttpError } from "../utils/errorFormatter.js";
 const BASE_IMAGE_URL = 'http://localhost:3000/cat-images/';
@@ -31,8 +31,19 @@ export class CatController {
     static async getCat(req){
         const cat = await Cat.findByPk(req.params.id, {
             include:  [{
+                model: User,
+                attributes: ['name']
+            },
+            {
                 model: Comment,
                 attributes: ['id', 'UserEmail', 'comment', 'createdAt'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['name'],
+                    }
+                ],
+                separate: true,
                 order: [ ['createdAt', 'ASC'] ]
             }]
         });

@@ -11,16 +11,19 @@ export interface CatSummary{
 export interface Cat extends CatSummary{
   img: string;
   desc: string;
-  UserEmail: string;
   updatedAt: string;
+  UserEmail: string;
+  User?: {
+    name: string;
+  };
 }
 
 export interface CatDetails extends Cat{
-  comments: Comment[];
+  Comments: Comment[];
 }
 
 export interface CreateCatRequest {
-  img: string,
+  img: string;
   title: string;
   desc: string;
   lat: number;
@@ -32,7 +35,7 @@ export interface CreateCatResponse {
 }
 
 export interface CatResponse {
-  cat: Cat;
+  cat: CatDetails;
 }
 
 export interface CatsResponse {
