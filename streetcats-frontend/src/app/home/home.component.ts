@@ -29,6 +29,6 @@ export class HomeComponent {
   }
 
   goToNewCat(){
-    this.router.navigate(["create-cat"]);
+    this.router.navigate(["new-cat"]);
   }
 }

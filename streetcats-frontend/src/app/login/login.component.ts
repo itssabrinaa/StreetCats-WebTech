@@ -61,7 +61,6 @@ export class LoginComponent {
         pwd: this.loginForm.value.pwd as string,
       }).subscribe({
         next: (res: LogInResponse) => {
-          console.log(`${res.jwt}`);
           this.authService.updateToken(res.jwt).then(() => {
             this.router.navigate(['/home'], {
               queryParams: { welcome: '1' }

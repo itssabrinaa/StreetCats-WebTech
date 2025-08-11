@@ -7,7 +7,7 @@ import { CommentRequest, CommentResponse } from './comment-request.type';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiCatService {
+export class ApiCommentService {
 
   url = environment.apiUrl;
   constructor(private http: HttpClient) {}

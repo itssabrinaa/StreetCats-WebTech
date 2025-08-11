@@ -1,23 +1,37 @@
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
+import { ToastrService } from 'ngx-toastr';
 
+import { AuthService } from '../_services/auth/auth.service';
 import { CatResponse } from '../_services/api-requests/cat-request.type';
 import { ApiCatService } from '../_services/api-requests/api-cat.service';
+import { ApiCommentService } from '../_services/api-requests/api-comment.service';
+import { CommentRequest } from '../_services/api-requests/comment-request.type';
 
 @Component({
   selector: 'app-cat',
   standalone: true,
-  imports: [MarkdownModule],
+  imports: [MarkdownModule, FormsModule],
   templateUrl: './cat.component.html',
   styleUrl: './cat.component.scss'
 })
 export class CatComponent {
   router = inject(Router);
   actRoute = inject(ActivatedRoute);
-  apiService = inject(ApiCatService);
+
+  toastr = inject(ToastrService);
+
+  authService = inject(AuthService);
+  apiCatService = inject(ApiCatService);
+  apiCommentService = inject(ApiCommentService);
 
   cat?: CatResponse['cat'];
+  fallbackImg = '/noimage.png';
+
+  isCommenting = false;
+  newComment: string = '';
 
   ngOnInit(){
     const id = Number(this.actRoute.snapshot.paramMap.get('id'));
@@ -31,7 +45,7 @@ export class CatComponent {
   }
 
   private loadCat(id: number){
-    this.apiService.getCat(id).subscribe({
+    this.apiCatService.getCat(id).subscribe({
       next: (res) => {
         this.cat = res.cat;
       },
@@ -41,6 +55,39 @@ export class CatComponent {
         });
       }
     });
+  }
+
+  submitComment(){
+    if (!this.newComment.trim() || !this.cat) return;
+
+    const payload: CommentRequest = {
+      comment: this.newComment.trim(),
+      catId: this.cat.id
+    };
+
+    this.isCommenting = true;
+    this.apiCommentService.createComment(payload)
+    .subscribe({
+      next: (res) => {
+        let new_comment = res.new_comment;
+        new_comment.User = { name: this.authService.getName() || new_comment.UserEmail };
+        this.cat?.Comments?.unshift(new_comment);
+        this.newComment = '';
+        this.isCommenting = false;
+      },
+      error: (err) => {
+        this.newComment = '';
+        this.isCommenting = false;
+        const errorMsg = err.error?.error || 'Errore sconosciuto';
+        this.toastr.error(`${errorMsg}`, `Impossibile commentare`);
+      }
+    });
+  }
+
+  transformComment(comment: string): string{
+    const txt = document.createElement('textarea');
+    txt.innerHTML = comment;
+    return txt.value;
   }
 
 }

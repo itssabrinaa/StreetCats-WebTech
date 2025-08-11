@@ -44,7 +44,7 @@ export class CatController {
                     }
                 ],
                 separate: true,
-                order: [ ['createdAt', 'ASC'] ]
+                order: [ ['createdAt', 'DESC'] ]
             }]
         });
 

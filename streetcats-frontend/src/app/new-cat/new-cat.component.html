@@ -1,1 +1,58 @@
-<p>new-cat works!</p>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+
+<div class="container mt-4">
+    <h3 class="text-center mb-4">
+        Hai un nuovo avvistamento di gatto da segnalare? Fallo qui!
+    </h3>
+
+    <div class="mb-3">
+        <label for="title" class="form-label">Titolo</label>
+        <input id="title" type="text" class="form-control" [(ngModel)]="title" />
+    </div>
+
+    <div class="markdown-wrapper mb-3">
+        <div class="editor-container">
+            <md-editor [(ngModel)]="desc" [options]="options"></md-editor>
+        </div>
+        
+        
+        <div class="preview-container">
+            <h5>Anteprima</h5>
+            <div style="overflow-y:scroll; height:260px;">
+                <div class="cat-description" markdown emoji [data]="desc"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Posizione</label>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <div class="mt-2">
+        <small class="text-muted">Clicca sulla mappa per selezionare la posizione.</small>
+        @if(lat && lon){
+            <div class="mt-1">
+            <strong>Lat:</strong> {{ lat }},
+            <strong>Lon:</strong> {{ lon }}
+            </div>
+        }
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Immagine</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)" />
+    </div>
+
+    @if(!title || !desc || !lat || !lon || !imgFile){
+        <div class="alert alert-danger text-start">
+            Compila tutti i campi per continuare.
+        </div>
+    }
+
+    <div class="new-comment-container text-center">
+        <button class="submit-cat-btn btn btn-primary text-white" [disabled]="buttonDisabled()" (click)="submitCat()">Invia</button>
+    </div>
+    
+</div>
