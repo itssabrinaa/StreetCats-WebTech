@@ -41,7 +41,7 @@ export class MapComponent {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([40.828925120307915, 14.19045339605781], 10);
+    this.map = L.map('map-mapcomponent').setView([40.828925120307915, 14.19045339605781], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -73,7 +73,7 @@ export class MapComponent {
     return `
       <div style="text-align:center; width:150px;">
         <strong>${cat.title}</strong><br/>
-        <small>${new Date(cat.createdAt).toLocaleDateString()}</small><br/>
+        <p>${cat.User?.name} - <small>${new Date(cat.createdAt).toLocaleDateString()}</small></p>
         <button 
           class="btn btn-primary text-white btn-sm"
           onclick="window.dispatchEvent(new CustomEvent('navigateToCat', { detail: ${cat.id} }))">

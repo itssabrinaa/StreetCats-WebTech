@@ -7,7 +7,13 @@ export class CatController {
     
     static async getAllCats(){
         const cats = await Cat.findAll({
-            attributes: ['id','title', 'lat', 'lon', 'createdAt']
+            attributes: ['id','title', 'lat', 'lon', 'createdAt'],
+            include: [
+                    {
+                        model: User,
+                        attributes: ['name'],
+                    }
+                ],
         });
         return cats.map(cat => ({
             ...cat.toJSON()

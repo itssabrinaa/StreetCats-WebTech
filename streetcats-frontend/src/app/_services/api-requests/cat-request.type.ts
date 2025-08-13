@@ -6,6 +6,9 @@ export interface CatSummary{
   lat: number;
   lon: number;
   createdAt: string;
+  User?: {
+    name: string;
+  };
 }
 
 export interface Cat extends CatSummary{
@@ -13,9 +16,6 @@ export interface Cat extends CatSummary{
   desc: string;
   updatedAt: string;
   UserEmail: string;
-  User?: {
-    name: string;
-  };
 }
 
 export interface CatDetails extends Cat{

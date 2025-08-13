@@ -5,11 +5,22 @@
         Hai un nuovo avvistamento di gatto da segnalare? Fallo qui!
     </h3>
 
-    <div class="mb-3">
-        <label for="title" class="form-label">Titolo</label>
+    <div class="mt-5 mb-5">
+        <h5>Titolo</h5>
         <input id="title" type="text" class="form-control" [(ngModel)]="title" />
     </div>
 
+    <div class="mt-5 mb-5">
+        <h5>Immagine</h5>
+        <input type="file" class="form-control" (change)="onFileSelected($event)" />
+    </div>
+
+    <div class="mb-3">
+        <h5>Descrizione</h5>
+        <small class="text-muted">Scrivi una descrizione per il tuo avvistamento e utilizza Markdown per personalizzarla.
+            Sulla destra visualizzerai un'anteprima del contenuto.
+        </small>
+    </div>
     <div class="markdown-wrapper mb-3">
         <div class="editor-container">
             <md-editor [(ngModel)]="desc" [options]="options"></md-editor>
@@ -17,20 +28,20 @@
         
         
         <div class="preview-container">
-            <h5>Anteprima</h5>
+            <h6>Anteprima</h6>
             <div style="overflow-y:scroll; height:260px;">
                 <div class="cat-description" markdown emoji [data]="desc"></div>
             </div>
         </div>
     </div>
 
-    <div class="mb-3">
-        <label class="form-label">Posizione</label>
+    <div class="mt-5 mb-5">
+        <h5>Posizione</h5>
+        <small class="text-muted">Clicca sulla mappa per selezionare la posizione.</small>
         <div class="map-container">
-            <div id="map"></div>
+            <div id="map-newcatcomponent"></div>
         </div>
         <div class="mt-2">
-        <small class="text-muted">Clicca sulla mappa per selezionare la posizione.</small>
         @if(lat && lon){
             <div class="mt-1">
             <strong>Lat:</strong> {{ lat }},
@@ -38,11 +49,6 @@
             </div>
         }
         </div>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Immagine</label>
-        <input type="file" class="form-control" (change)="onFileSelected($event)" />
     </div>
 
     @if(!title || !desc || !lat || !lon || !imgFile){

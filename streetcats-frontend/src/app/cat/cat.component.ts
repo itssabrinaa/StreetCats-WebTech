@@ -47,11 +47,17 @@ export class CatComponent {
       });
     }
 
+    this.actRoute.queryParams.subscribe(params => {
+      if (params['success']) {
+        this.toastr.success(`Hai creato correttamente un nuovo gatto, visualizzalo!`, `Nuovo gatto`);
+      }
+    });
+
     this.loadCat(id);
   }
   
   private initMap(lat: number, lon: number): void {
-    this.map = L.map('map').setView([40.828925120307915, 14.19045339605781], 11);
+    this.map = L.map('map-catcomponent').setView([lat, lon], 11);
   
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

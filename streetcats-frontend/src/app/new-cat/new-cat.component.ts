@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import 'highlight.js/styles/github.css';
 import 'ace-builds/src-min/ace';
@@ -24,6 +26,8 @@ import { ApiCatService } from '../_services/api-requests/api-cat.service';
 })
 export class NewCatComponent {
   apiService = inject(ApiCatService);
+  toastr = inject(ToastrService);
+  router = inject(Router);
 
   map!: L.Map;
   marker!: L.Marker;
@@ -51,7 +55,7 @@ export class NewCatComponent {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([40.828925120307915, 14.19045339605781], 11);
+    this.map = L.map('map-newcatcomponent').setView([40.828925120307915, 14.19045339605781], 11);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -87,10 +91,15 @@ export class NewCatComponent {
       formData.append('img', this.imgFile!);
 
       this.apiService.createCat(formData).subscribe({
-        next: () => alert('Gatto creato con successo!'),
+        next: (res) => {
+          this.router.navigate(['/cats', res.new_cat.id], {
+              queryParams: { success: '1' }
+            });
+        },
         error: (err) => {
           console.error(err);
-          alert('Errore durante la creazione.');
+          const errorMsg = err.error?.error || 'Errore sconosciuto';
+          this.toastr.error(`${errorMsg}`, `Impossibile pubblicare l'avvistamento.`);
         }
       });
     }

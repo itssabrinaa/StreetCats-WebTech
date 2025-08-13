@@ -1,9 +1,9 @@
 .home {
-  height: 100%;
+  height: 570px;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
   width: 100%;
   
-  background-image: url('/home_background.gif'); /* percorso relativo alla cartella public */
+  background-image: url('/home_background.gif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -14,7 +14,6 @@
   justify-content: center;
 }
 
-/* Overlay scuro per aumentare contrasto */
 .home::before {
   content: '';
   position: absolute;
@@ -22,11 +21,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* opacità regolabile */
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 
-/* Contenuto sopra overlay */
 .home > * {
   position: relative;
   z-index: 2;
