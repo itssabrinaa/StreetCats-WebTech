@@ -1,11 +1,25 @@
 .cat-description{
     padding-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 8px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 .cat-img{
-    max-height: 300px;   /* stessa altezza max del binding, ma puoi anche metterlo solo in TS */
-    object-fit: contain; /* scala l'immagine senza tagliarla, mantenendo proporzioni */
-    width: auto;         /* larghezza automatica per mantenere proporzioni */
+    max-height: 300px;
+    object-fit: contain; 
+    width: auto;         
+}
+
+.map-container{
+    height: 20vh;
+
+    #map{
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .new-comment-container{

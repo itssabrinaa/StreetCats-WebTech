@@ -18,38 +18,45 @@ export const routes: Routes = [
     {
         path:'home',
         component: HomeComponent,
-        title: "Home - StreetCats"
+        title: "Home - StreetCats",
+        data: { animation: 'HomeComponent' }
     },
     {
         path:'signup',
         component: SignupComponent,
-        title: "Sign Up - StreetCats"
+        title: "Sign Up - StreetCats",
+        data: { animation: 'SignupComponent' }
     },
     {
         path:'login',
         component: LoginComponent,
-        title: "Log In - StreetCats"
+        title: "Log In - StreetCats",
+        data: { animation: 'LoginComponent' }
     },
     {
         path: "logout",
         component: LogoutComponent,
         title: "Log Out - StreetCats",
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        data: { animation: 'LogoutComponent' }
     },
     {
         path:'map',
         component: MapComponent,
-        title: "Mappa - StreetCats"
+        title: "Mappa - StreetCats",
+        data: { animation: 'MapComponent' }
     },
     {
         path:'new-cat',
         component: NewCatComponent,
         title: "Nuovo gatto - StreetCats",
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        data: { animation: 'NewCatComponent' }
     },
     {
         path:'cats/:id',
         component: CatComponent,
-        title: "Gatto - StreetCats"
+        title: "Gatto - StreetCats",
+        data: { animation: 'CatComponent' }
     }
 ];

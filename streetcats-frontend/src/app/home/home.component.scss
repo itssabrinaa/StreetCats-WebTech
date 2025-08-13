@@ -1,0 +1,35 @@
+.home {
+  height: 100%;
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  width: 100%;
+  
+  background-image: url('/home_background.gif'); /* percorso relativo alla cartella public */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overlay scuro per aumentare contrasto */
+.home::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* opacità regolabile */
+  z-index: 1;
+}
+
+/* Contenuto sopra overlay */
+.home > * {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}

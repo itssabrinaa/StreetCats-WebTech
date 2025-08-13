@@ -1,8 +1,8 @@
 <div class="d-flex flex-column min-vh-100 bg-light">
   <app-navbar class="sticky-top"></app-navbar>
 
-  <main class="container flex-grow-1 my-3">
-    <router-outlet></router-outlet>
+  <main class="container flex-grow-1 my-3" [@routeFade]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet"></router-outlet>
   </main>
 
   <app-footer/>

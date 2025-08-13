@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
 import { ToastrService } from 'ngx-toastr';
 
+import * as L from 'leaflet';
+
 import { AuthService } from '../_services/auth/auth.service';
 import { CatResponse } from '../_services/api-requests/cat-request.type';
 import { ApiCatService } from '../_services/api-requests/api-cat.service';
@@ -30,6 +32,10 @@ export class CatComponent {
   cat?: CatResponse['cat'];
   fallbackImg = '/noimage.png';
 
+  map!: L.Map;
+  marker!: L.Marker;
+  icon = L.icon({iconUrl:"map_marker.png", iconSize:[35,35]});
+
   isCommenting = false;
   newComment: string = '';
 
@@ -43,11 +49,23 @@ export class CatComponent {
 
     this.loadCat(id);
   }
+  
+  private initMap(lat: number, lon: number): void {
+    this.map = L.map('map').setView([40.828925120307915, 14.19045339605781], 11);
+  
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+    L.marker([lat, lon], { icon: this.icon })
+          .addTo(this.map);
+  }
 
   private loadCat(id: number){
     this.apiCatService.getCat(id).subscribe({
       next: (res) => {
         this.cat = res.cat;
+
+        this.initMap(this.cat.lat, this.cat.lon);
       },
       error: (err) => {
         this.router.navigate(['/map'], {

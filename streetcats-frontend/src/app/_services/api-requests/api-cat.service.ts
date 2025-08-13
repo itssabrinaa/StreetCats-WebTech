@@ -28,9 +28,9 @@ export class ApiCatService {
     return this.http.get<CatResponse>(url, this.httpOptions);
   }
 
-  createCat(createCatRequest: CreateCatRequest){
+  createCat(createCatRequest: FormData){
     const url = `${this.url}/cats`;
-    return this.http.post<CreateCatResponse>(url, createCatRequest, this.httpOptions);
+    return this.http.post<CreateCatResponse>(url, createCatRequest);
   }
 
 }

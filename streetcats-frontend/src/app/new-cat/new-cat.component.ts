@@ -24,6 +24,7 @@ import { ApiCatService } from '../_services/api-requests/api-cat.service';
 })
 export class NewCatComponent {
   apiService = inject(ApiCatService);
+
   map!: L.Map;
   marker!: L.Marker;
   icon = L.icon({iconUrl:"map_marker.png", iconSize:[35,35]});
@@ -31,7 +32,7 @@ export class NewCatComponent {
   options: MdEditorOption = {
     showPreviewPanel: false,
     resizable: false,
-    hideIcons: ['Link', 'Image', 'TogglePreview', 'FullScreen'],
+    hideIcons: ['Image', 'TogglePreview', 'FullScreen'],
     fontAwesomeVersion: '4',
     markedjsOpt: { 
       sanitize: true
@@ -77,7 +78,22 @@ export class NewCatComponent {
   }
 
   submitCat(){
+    if(!this.buttonDisabled()){
+      const formData = new FormData();
+      formData.append('title', this.title);
+      formData.append('desc', this.desc);
+      formData.append('lat', this.lat.toString());
+      formData.append('lon', this.lon.toString());
+      formData.append('img', this.imgFile!);
 
+      this.apiService.createCat(formData).subscribe({
+        next: () => alert('Gatto creato con successo!'),
+        error: (err) => {
+          console.error(err);
+          alert('Errore durante la creazione.');
+        }
+      });
+    }
   }
 
 
