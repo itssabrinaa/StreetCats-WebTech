@@ -69,4 +69,10 @@
         padding: 1rem;
         text-align: left;
     }
+
+}
+
+.comment-text{
+    max-height: 140px;
+    overflow-y: auto;
 }

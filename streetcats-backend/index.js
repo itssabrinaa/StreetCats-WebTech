@@ -9,6 +9,7 @@ import 'dotenv/config.js';
 import { authenticationRouter } from "./routes/authenticationRouter.js";
 import { catRouter } from "./routes/catRouter.js";
 import { commentRouter } from "./routes/commentRouter.js";
+import { userRouter } from "./routes/userRouter.js";
 
 const app = express();
 const PORT = process.env.SC_PORT || 3000;
@@ -55,6 +56,7 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(authenticationRouter);
 app.use(catRouter);
 app.use(commentRouter);
+app.use(userRouter);
 
 
 //Error handler generico

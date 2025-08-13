@@ -54,16 +54,5 @@ export class AuthController {
         return null;
     }
 
-    static async getUserName(email){
-        let user = await User.findOne({
-            where: {
-                email: email
-            }
-        });
-
-        if(!user){  return null;   }
-        return user.name;
-    }
-
     
 }

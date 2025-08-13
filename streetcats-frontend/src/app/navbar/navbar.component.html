@@ -1,40 +1,50 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <!-- Logo + nome app -->
+
+    <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center" routerLink="/">
       <img src="/sc_logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
       <span class="title">StreetCats</span>
     </a>
 
-    <!-- Bottone toggler -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" 
+    <!-- Avatar fisso a destra -->
+    @if(this.authService.isUserAuthenticated()) {
+      <div class="d-flex align-items-center order-lg-3 ms-auto">
+        <div class="user-avatar rounded-circle bg-primary text-white">
+          {{ authService.getName()?.charAt(0)?.toUpperCase() }}
+        </div>
+      </div>
+    }
+
+    <!-- Bottone toggle -->
+    <button class="navbar-toggler order-lg-2 ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" 
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Link normali + collapse -->
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+    <!-- Menu collassabile -->
+    <div class="collapse navbar-collapse order-lg-1 me-3" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/map" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Mappa</a>
         </li>
-        @if(! this.authService.isUserAuthenticated()){
+        @if(!this.authService.isUserAuthenticated()) {
           <li class="nav-item">
             <a class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Log in</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/signup" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Sign up</a>
           </li>
-        }@else{
+        } @else {
           <li class="nav-item">
             <a class="nav-link" routerLink="/logout" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Log out</a>
           </li>
         }
       </ul>
     </div>
+
   </div>
 </nav>
-
