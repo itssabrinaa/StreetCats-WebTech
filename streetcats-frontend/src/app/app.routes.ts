@@ -7,6 +7,7 @@ import { MapComponent } from './map/map.component';
 import { CatComponent } from './cat/cat.component';
 import { authGuard } from './_guards/auth.guard';
 import { NewCatComponent } from './new-cat/new-cat.component';
+import { UserComponent } from './user/user.component';
 
 export const routes: Routes = [
     {
@@ -58,5 +59,12 @@ export const routes: Routes = [
         component: CatComponent,
         title: "Gatto - StreetCats",
         data: { animation: 'CatComponent' }
+    },
+    {
+        path:'users/me',
+        component: UserComponent,
+        title: "Profilo - StreetCats",
+        canActivate: [authGuard],
+        data: { animation: 'UserComponent' }
     }
 ];

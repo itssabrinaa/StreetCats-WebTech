@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
-import { CatResponse, CatsResponse, CreateCatRequest, CreateCatResponse } from './cat-request.type';
+import { CatResponse, CatsResponse, CreateCatResponse } from './cat-request.type';
 
 @Injectable({
   providedIn: 'root'

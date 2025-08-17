@@ -13,9 +13,10 @@ export class UserController {
             include: [
                 {
                     model: Cat,
-                    attributes: ['id', 'title']
+                    attributes: ['id', 'title', 'createdAt']
                 }
-            ]
+            ],
+            order: [[Cat, 'createdAt', 'DESC']]
         });
 
         if (!user) {
@@ -29,9 +30,9 @@ export class UserController {
         const commentsReceivedCount = await Comment.count({
             include: [
                 {
-                model: Cat,
-                attributes: [],
-                where: { UserEmail: email }
+                    model: Cat,
+                    attributes: [],
+                    where: { UserEmail: email }
                 }
             ]
         });

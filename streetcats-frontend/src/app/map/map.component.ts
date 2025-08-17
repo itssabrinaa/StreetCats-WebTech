@@ -72,7 +72,7 @@ export class MapComponent {
   private createPopupContent(cat: CatSummary): string {
     return `
       <div style="text-align:center; width:150px;">
-        <strong>${cat.title}</strong><br/>
+        <strong style="word-wrap: break-word; white-space: pre-wrap;">${cat.title}</strong><br/>
         <p>${cat.User?.name} - <small>${new Date(cat.createdAt).toLocaleDateString()}</small></p>
         <button 
           class="btn btn-primary text-white btn-sm"

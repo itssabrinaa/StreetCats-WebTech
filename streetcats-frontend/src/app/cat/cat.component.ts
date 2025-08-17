@@ -108,9 +108,9 @@ export class CatComponent {
     });
   }
 
-  transformComment(comment: string): string{
+  transformText(text: string): string{
     const txt = document.createElement('textarea');
-    txt.innerHTML = comment;
+    txt.innerHTML = text;
     return txt.value;
   }
 
