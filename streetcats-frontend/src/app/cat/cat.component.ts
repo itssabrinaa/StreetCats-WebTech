@@ -114,4 +114,9 @@ export class CatComponent {
     return txt.value;
   }
 
+  onImgError(event: Event) {
+    const target = event.target as HTMLImageElement;
+    target.src = this.fallbackImg;
+  }
+
 }

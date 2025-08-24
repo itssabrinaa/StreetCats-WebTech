@@ -10,8 +10,8 @@ export class AuthService {
   authState: WritableSignal<AuthState> = signal<AuthState>({
     name: this.getName(),
     email: this.getEmail(),
-    token: this.getToken(), //get token from localStorage, if there
-    isAuthenticated: this.verifyToken(this.getToken()) //verify it's not expired
+    token: this.getToken(),
+    isAuthenticated: this.verifyToken(this.getToken())
   })
 
   name = computed(() => this.authState().name);
@@ -35,9 +35,9 @@ export class AuthService {
         localStorage.removeItem("name");
       }
       if(email !== null){
-        localStorage.setItem("user", email);
+        localStorage.setItem("email", email);
       } else {
-        localStorage.removeItem("user");
+        localStorage.removeItem("email");
       }
     });
   }
@@ -72,11 +72,11 @@ export class AuthService {
         const decodedToken = jwtDecode(token);
         const expiration = decodedToken.exp;
         if(expiration === undefined || Date.now() >= expiration * 1000){
-          return false; //expiration not available or in the past
+          return false;
         } else {
-          return true; //token not expired
+          return true;
         }
-      } catch(error) {  //invalid token
+      } catch(error) {
         return false;
       }
     }
