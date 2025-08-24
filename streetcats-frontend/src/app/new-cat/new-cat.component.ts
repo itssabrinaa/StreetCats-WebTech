@@ -37,10 +37,7 @@ export class NewCatComponent {
     showPreviewPanel: false,
     resizable: false,
     hideIcons: ['Image', 'TogglePreview', 'FullScreen'],
-    fontAwesomeVersion: '4',
-    markedjsOpt: { 
-      sanitize: true
-    }
+    fontAwesomeVersion: '4'
   };
   public mode: string = "editor";
 

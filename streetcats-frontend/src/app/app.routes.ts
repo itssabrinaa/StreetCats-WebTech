@@ -67,4 +67,5 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: { animation: 'UserComponent' }
     }
+
 ];
