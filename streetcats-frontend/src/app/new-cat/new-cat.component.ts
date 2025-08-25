@@ -36,7 +36,7 @@ export class NewCatComponent {
   options: MdEditorOption = {
     showPreviewPanel: false,
     resizable: false,
-    hideIcons: ['Image', 'TogglePreview', 'FullScreen'],
+    hideIcons: ['Image', 'TogglePreview', 'FullScreen', 'Code', 'Reference'],
     fontAwesomeVersion: '4'
   };
   public mode: string = "editor";
