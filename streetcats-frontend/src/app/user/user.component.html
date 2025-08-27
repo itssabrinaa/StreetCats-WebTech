@@ -29,14 +29,13 @@
                 [routerLink]="'/cats/' + cat.id" 
                 routerLinkActive="active" 
                 [routerLinkActiveOptions]="{exact: true}" 
-                class="text-decoration-none mb-1"
+                class="text-decoration-none mb-1 cat-text"
               >
-                <i class="cat-title bi bi-bookmark-heart me-2"></i>
-                {{ transformText(cat.title) }}
+                <i class="bi bi-bookmark-heart me-2"></i>
+                <span class="cat-title-text">{{ transformText(cat.title) }}</span>
               </a>
               <em class="text-muted small mt-auto">{{ cat.createdAt.substring(0, 10) }}</em>
             </li>
-
         }
     </ul>
   </div>

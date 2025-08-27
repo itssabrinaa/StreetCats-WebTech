@@ -8,3 +8,16 @@
   word-wrap: break-word;
   white-space: pre-wrap;
 }
+
+.list-group-item > .cat-text {
+  display: block; 
+  min-width: 0;    
+}
+
+.cat-title-text {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;    
+  -ms-word-break: break-all; 
+  hyphens: auto;             
+}

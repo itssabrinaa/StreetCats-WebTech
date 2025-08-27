@@ -18,6 +18,9 @@
         <input id="email" formControlName="email" type="email" class="form-control" placeholder="email@provider.it" (focus)="emailSelected()"/>
       </div>
     </div>
+    @if(emailSelect && (signupForm.get('email')?.value?.length ?? 0) > 0  && signupForm.get('email')?.invalid){
+      <p class="text-danger">L'email inserita non è valida.</p>
+    }
 
     <div class="form-group row p-3 align-items-center">
       <label for="pwd" class="col-sm-4 col-form-label text-start">Password:</label>
@@ -29,7 +32,7 @@
         </div>
       </div>
     </div>
-    @if(pwdSelect && signupForm.get('pwd')?.invalid){
+    @if(pwdSelect && (signupForm.get('pwd')?.value?.length ?? 0) > 0  && signupForm.get('pwd')?.invalid){
       <p class="text-danger">La password inserita non è valida.</p>
     }
 

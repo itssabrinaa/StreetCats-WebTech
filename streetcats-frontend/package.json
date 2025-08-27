@@ -1,6 +1,6 @@
 {
   "name": "streetcats-frontend",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -52,6 +52,7 @@
     "typescript": "~5.7.2"
   },
   "overrides": {
-    "sass": "1.62.0"
+    "sass": "1.62.0",
+    "marked": "16.1.2"
   }
 }
