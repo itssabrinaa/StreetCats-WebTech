@@ -21,7 +21,7 @@ export class HomeComponent {
 
   ngOnInit() {
     this.actRoute.queryParams.subscribe(params => {
-      if (params['welcome']) {
+      if (params['welcome'] && this.authService.getName() != null) {
         this.toastr.success(`Inizia a pubblicare i tuoi avvistamenti o visualizza quelli degli altri utenti.`,
           `Ciao, ${this.authService.getName()}!`);
       }

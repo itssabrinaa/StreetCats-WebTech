@@ -18,7 +18,7 @@ export class LogoutComponent {
 
   ngOnInit() {
     if(! this.authService.isAuthenticated()){
-      this.toastr.warning("You are not currently logged in!");
+      this.toastr.warning("Non hai effettuato l'accesso");
       this.router.navigateByUrl("/");
     } else {
       this.toastr.success(`Log Out per ${this.authService.name()} effettuato con successo`, "A presto!");
