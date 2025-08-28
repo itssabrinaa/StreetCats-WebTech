@@ -6,11 +6,11 @@
 
 Istruzioni per l'esecuzione:
 
-1. **Back-end**
+**1. Back-end**
 
 Posizionarsi nella cartella "StreetCats-WebTech".
 
-Posizionarsi nella cartella "streetsats-backend".
+Posizionarsi nella cartella "streetcats-backend".
 
 
 Rinominare il file ".env.dummy" in ".env", e completarlo con le informazioni necessarie.
@@ -21,7 +21,7 @@ Eseguire  ` npm install ` .
 Eseguire  ` npm start ` .
 
 
-2. **Front-end**
+**2. Front-end**
 
 Posizionarsi nella cartella "StreetCats-WebTech".
 
@@ -33,7 +33,7 @@ Eseguire  ` npm install ` .
 Eseguire  ` ng serve ` .
 
 
-3. **Test E2E**
+**3. Test E2E**
 
 Posizionarsi nella cartella "StreetCats-WebTech".
 
