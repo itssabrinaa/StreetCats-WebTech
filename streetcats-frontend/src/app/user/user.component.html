@@ -3,11 +3,11 @@
   <div class="row align-items-center mb-4">
     <div class="col-auto">
       <div class="user-avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fs-3" style="width:70px;height:70px;">
-        {{ user?.name?.charAt(0)?.toUpperCase() }}
+        {{ transformText(user?.name || "?").charAt(0).toUpperCase() }}
       </div>
     </div>
     <div class="col">
-      <h2 class="mb-1">{{ user?.name }}</h2>
+      <h2 class="mb-1">{{ transformText(user?.name || "?") }}</h2>
       <p class="text-muted mb-1">{{ user?.email }}</p>
       <div class="d-flex gap-3 mt-2">
         <span class="text-primary me-4">
@@ -36,6 +36,8 @@
               </a>
               <em class="text-muted small mt-auto">{{ cat.createdAt.substring(0, 10) }}</em>
             </li>
+        } @empty {
+          <p class="text-muted small mt-auto">Nessun avvistamento di gatto pubblicato.</p>
         }
     </ul>
   </div>

@@ -1,4 +1,4 @@
-import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Injectable, WritableSignal, effect, signal } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 import { AuthState } from './auth-state.type';
 
@@ -39,8 +39,10 @@ export class AuthService {
 
   async updateToken(token: string) {
     const decodedToken: any = jwtDecode(token);
-    const name = decodedToken.name;
+
+    const name = this.decodeHtmlEntities(decodedToken.name);
     const email = decodedToken.email;
+
     this.authState.set({
       name: name,
       email: email,
@@ -89,5 +91,11 @@ export class AuthService {
       token: null,
       isAuthenticated: false
     });
+  }
+
+  decodeHtmlEntities(value: string): string {
+    const parser = new DOMParser();
+    const decoded = parser.parseFromString(value, "text/html");
+    return decoded.documentElement.textContent || "";
   }
 }

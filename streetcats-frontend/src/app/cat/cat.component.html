@@ -11,7 +11,7 @@
                 (error)="onImgError($event)" />
         </div>
         <div class="col-md-6">
-            <p class="text-muted mb-1">Pubblicato da <strong>{{ cat?.User?.name }}</strong> ( {{ cat?.UserEmail }} )</p>
+            <p class="text-muted mb-1">Pubblicato da <strong>{{ transformText( cat?.User?.name || "") }}</strong> ( {{ cat?.UserEmail }} )</p>
             <p class="text-muted mb-1">il {{ cat?.createdAt?.substring(0, 10) }} alle {{ cat?.createdAt?.substring(11, 19) }}.</p>
             <h6 class="mt-3">Descrizione</h6>
             <div class="cat-description" markdown emoji [data]="cat?.desc"></div>
@@ -50,7 +50,7 @@
             <div class="comment-body flex-grow-1">
                 <div class="comment-header mb-1">
                 <p class="text-muted mb-1">
-                    <strong>{{ comment.User?.name }}</strong> ( {{ comment.UserEmail }} )
+                    <strong>{{ transformText(comment.User?.name || "") }}</strong> ( {{ comment.UserEmail }} )
                     <small class="text-muted ms-2">
                         {{ comment.createdAt.substring(0, 10) }} {{ comment.createdAt.substring(11, 16) }}
                     </small>
