@@ -17,11 +17,11 @@ export class LogoutComponent {
   router = inject(Router);
 
   ngOnInit() {
-    if(! this.authService.isAuthenticated()){
+    if(! this.authService.isUserAuthenticated()){
       this.toastr.warning("Non hai effettuato l'accesso");
       this.router.navigateByUrl("/");
     } else {
-      this.toastr.success(`Log Out per ${this.authService.name()} effettuato con successo`, "A presto!");
+      this.toastr.success(`Log Out per ${this.authService.getName()} effettuato con successo`, "A presto!");
       this.authService.logout();
       this.router.navigateByUrl("/");
     }

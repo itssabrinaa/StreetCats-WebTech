@@ -14,11 +14,6 @@ export class AuthService {
     isAuthenticated: this.verifyToken(this.getToken())
   })
 
-  name = computed(() => this.authState().name);
-  email = computed(() => this.authState().email);
-  token = computed(() => this.authState().token);
-  isAuthenticated = computed(() => this.authState().isAuthenticated);
-
   constructor(){
     effect( () => {
       const token = this.authState().token;
