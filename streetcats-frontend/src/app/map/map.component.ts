@@ -49,17 +49,23 @@ export class MapComponent {
 
   }
 
-  private loadCats(){
+  private loadCats() {
     this.apiService.getCats().subscribe({
       next: (res) => {
         this.cats = res.cats;
-        this.addMarkers();
+
+        if (!this.cats || this.cats.length === 0) {
+          this.toastr.info("Non ci sono ancora gatti su questa mappa, inserisci tu il primo avvistamento!", "Nessun gatto...");
+        } else {
+          this.addMarkers();
+        }
       },
       error: (err) => {
-        console.error('Errore caricando i gatti', err);
+        this.toastr.error("Si è verificato un errore durante il caricamento dei gatti, riprova.", "Nessun gatto...");
       }
     });
   }
+
 
   private addMarkers(){
     this.cats.forEach(cat => {

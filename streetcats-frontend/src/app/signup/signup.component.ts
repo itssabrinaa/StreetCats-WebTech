@@ -51,7 +51,7 @@ export class SignupComponent {
   }
 
   pwdConfirmed(){
-    return ((this.signupForm.value.pwd as string) === (this.signupForm.value.pwd2 as string))
+    return ((this.signupForm.value.pwd as string) === (this.signupForm.value.pwd2 as string));
   }
   buttonDisabled(){
     return this.signupForm.invalid || !this.pwdConfirmed();
