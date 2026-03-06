@@ -25,7 +25,7 @@ Eseguire  ` npm start ` .
 
 Posizionarsi nella cartella "StreetCats-WebTech".
 
-Posizionarsi nella cartella "streetsats-frontend".
+Posizionarsi nella cartella "streetcats-frontend".
 
 
 Eseguire  ` npm install ` .
@@ -37,7 +37,7 @@ Eseguire  ` ng serve ` .
 
 Posizionarsi nella cartella "StreetCats-WebTech".
 
-Posizionarsi nella cartella "streetsats-frontend".
+Posizionarsi nella cartella "streetcats-frontend".
 
 
 Eseguire  ` npx playwright install ` .
